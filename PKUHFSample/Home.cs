@@ -179,7 +179,7 @@ namespace PKUHFSample
             while (i <= 300)
             {
                 ComboBox_IntervalTime.Items.Add(Convert.ToString(i) + "ms");
-                i = i + 10;
+                i += 10;
             }
             ComboBox_IntervalTime.SelectedIndex = 1;
         }

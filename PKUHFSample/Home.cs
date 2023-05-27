@@ -13,13 +13,14 @@ namespace PKUHFSample
 {
     public partial class Home : Form
     {
-        private byte _fComAdr = 0xff; //当前操作的ComAdr
+        private byte _fComAdr = 0xff;
         private int _frmComportIndex;
-        private int _fOpenComIndex; //打开的串口索引号
-        private bool _comOpen = false;
-        private int _fCmdRet = 30; //所有执行指令的返回值
-        private bool fIsInventoryScan;
-        private bool fAppClosed;
+        private int _fOpenComIndex;
+        private int _fCmdRet = 30;
+        private bool _fIsInventoryScan;
+        private byte[] _fPassWord = new byte[4];
+        private int _fErrorCode;
+
         public Home()
         {
             InitializeComponent();
@@ -38,13 +39,11 @@ namespace PKUHFSample
             {
                 MessageBox.Show("TCPIP error", "Information");
                 StaticClassReaderB.CloseNetPort(_frmComportIndex);
-                _comOpen = false;
                 return;
             }
             if (_fOpenComIndex != -1 && (openResult != 0X35) && (openResult != 0X30))
             {
                 button2.Enabled = true;
-                _comOpen = true;
             }
             if ((_fOpenComIndex == -1) && (openResult == 0x30))
                 MessageBox.Show("TCPIP Communication Error", "Information");
@@ -62,37 +61,21 @@ namespace PKUHFSample
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (CheckBox_TID.Checked)
-            {
-                if ((textBox4.Text.Length) != 2 || ((textBox5.Text.Length) != 2))
-                {
-                    MessageBox.Show("TID Parameter Error！", "Information");
-                    return;
-                }
-            }
+
             Timer_Test_.Enabled = !Timer_Test_.Enabled;
             if (!Timer_Test_.Enabled)
-            {
-                textBox4.Enabled = true;
-                textBox5.Enabled = true;
-                CheckBox_TID.Enabled = true;
-                button2.Text = "Query Tag";
-
-            }
+                button2.Text = "Query ,  Read Tag";
             else
             {
-                textBox4.Enabled = false;
-                textBox5.Enabled = false;
-                CheckBox_TID.Enabled = false;
                 button2.Text = "Stop";
-
                 listBox1.Items.Clear();
+                listBox2.Items.Clear();
             }
         }
 
         private void Timer_Test__Tick(object sender, EventArgs e)
         {
-            if (fIsInventoryScan)
+            if (_fIsInventoryScan)
                 return;
             Inventory();
         }
@@ -103,26 +86,13 @@ namespace PKUHFSample
             int totalLen = 0;
             int m;
             byte[] epc = new byte[5000];
-            string s;
-            fIsInventoryScan = true;
+            _fIsInventoryScan = true;
             byte adrTid = 0;
             byte lenTid = 0;
             byte tidFlag = 0;
-            if (CheckBox_TID.Checked)
-            {
-                adrTid = Convert.ToByte(textBox4.Text, 16);
-                lenTid = Convert.ToByte(textBox5.Text, 16);
-                tidFlag = 1;
-            }
-            else
-            {
-                adrTid = 0;
-                lenTid = 0;
-                tidFlag = 0;
-            }
-            ListViewItem aListItem = new ListViewItem();
+
             _fCmdRet = StaticClassReaderB.Inventory_G2(ref _fComAdr, adrTid, lenTid, tidFlag, epc, ref totalLen, ref cardNum, _frmComportIndex);
-            if ((_fCmdRet == 1) | (_fCmdRet == 2) | (_fCmdRet == 3) | (_fCmdRet == 4) | (_fCmdRet == 0xFB))//代表已查找结束，
+            if ((_fCmdRet == 1) | (_fCmdRet == 2) | (_fCmdRet == 3) | (_fCmdRet == 4) | (_fCmdRet == 0xFB))
             {
                 byte[] daw = new byte[totalLen];
                 Array.Copy(epc, daw, totalLen);
@@ -131,7 +101,7 @@ namespace PKUHFSample
 
                 if (cardNum == 0)
                 {
-                    fIsInventoryScan = false;
+                    _fIsInventoryScan = false;
                     return;
                 }
 
@@ -146,13 +116,14 @@ namespace PKUHFSample
 
 
                     listBox1.Items.Add(sEpc);
+                    listBox1.SelectedIndex = listBox1.Items.Count - 1;
 
+                    //Read User
+                    ReadUser(sEpc);
                 }
             }
-            
-            fIsInventoryScan = false;
-            if (fAppClosed)
-                Close();
+
+            _fIsInventoryScan = false;
         }
 
         private string ByteArrayToHexString(byte[] data)
@@ -183,5 +154,136 @@ namespace PKUHFSample
             }
             ComboBox_IntervalTime.SelectedIndex = 1;
         }
+
+
+        private void ReadUser(string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+                return;
+
+            byte[] cardData = new byte[320];
+
+
+            byte maskAddress = Convert.ToByte("00", 16);
+            byte maskLength = Convert.ToByte("00", 16);
+
+
+            var eNum = Convert.ToByte(str.Length / 4);
+            byte epcLength = Convert.ToByte(str.Length / 2);
+            byte[] epc = new byte[eNum];
+            epc = HexStringToByteArray(str);
+
+
+            var wordPtr = Convert.ToByte("00", 16);
+            var num = Convert.ToByte("02");
+
+            _fPassWord = HexStringToByteArray("00000000");
+            _fCmdRet = StaticClassReaderB.ReadCard_G2(ref _fComAdr, epc, 3, wordPtr, num, _fPassWord, maskAddress, maskLength, 0, cardData, epcLength, ref _fErrorCode, _frmComportIndex);
+            if (_fCmdRet == 0)
+            {
+                byte[] daw = new byte[num * 2];
+                Array.Copy(cardData, daw, num * 2);
+                var user = ByteArrayToHexString(daw);
+
+                user = user.Remove(6, 2);
+
+
+                listBox2.Items.Add(user);
+                listBox2.SelectedIndex = listBox2.Items.Count - 1;
+            }
+
+
+
+        }
+
+        private byte[] HexStringToByteArray(string s)
+        {
+            s = s.Replace(" ", "");
+            byte[] buffer = new byte[s.Length / 2];
+            for (int i = 0; i < s.Length; i += 2)
+                buffer[i / 2] = (byte)Convert.ToByte(s.Substring(i, 2), 16);
+            return buffer;
+        }
+
+        private void Button_DataWrite_Click(object sender, EventArgs e)
+        {
+            string value = Edit_WriteData.Text;
+
+            if (value.Length != 6)
+            {
+                MessageBox.Show("The Number must be 6", "Wtite", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            value += "AA";
+
+
+            byte maskAddress = Convert.ToByte("00", 16);
+            byte maskLength = Convert.ToByte("00", 16);
+
+
+
+            string str = GetEpc();
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                MessageBox.Show("not found tag", "tracking", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var eNum = Convert.ToByte(str.Length / 4);
+            byte epcLength = Convert.ToByte(eNum * 2);
+            byte[] epc = new byte[eNum];
+            epc = HexStringToByteArray(str);
+
+
+            var wordPtr = Convert.ToByte("00", 16);
+
+            _fPassWord = HexStringToByteArray("00000000");
+
+            byte wNum = Convert.ToByte(value.Length / 4);
+            byte[] writeData = new byte[wNum * 2];
+            writeData = HexStringToByteArray(value);
+            byte writeDataLen = Convert.ToByte(wNum * 2);
+
+            _fCmdRet = StaticClassReaderB.WriteCard_G2(ref _fComAdr, epc, 3, wordPtr, writeDataLen, writeData, _fPassWord, maskAddress, maskLength, 0, 0, epcLength, ref _fErrorCode, _frmComportIndex);
+
+            if (_fCmdRet == 0)
+                MessageBox.Show("completely write Data successfully", "information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                MessageBox.Show(" write Data filed", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+
+        }
+
+        private string GetEpc()
+        {
+            int cardNum = 0;
+            int totalLen = 0;
+            byte[] epc = new byte[5000];
+            byte adrTid = 0;
+            byte lenTid = 0;
+            byte tidFlag = 0;
+
+            _fCmdRet = StaticClassReaderB.Inventory_G2(ref _fComAdr, adrTid, lenTid, tidFlag, epc, ref totalLen, ref cardNum, _frmComportIndex);
+            if ((_fCmdRet == 1) | (_fCmdRet == 2) | (_fCmdRet == 3) | (_fCmdRet == 4) | (_fCmdRet == 0xFB))
+            {
+                byte[] daw = new byte[totalLen];
+                Array.Copy(epc, daw, totalLen);
+                var temps = ByteArrayToHexString(daw);
+
+                if (cardNum == 0)
+                    return "";
+                int epClean = daw[0];
+                var sEpc = temps.Substring(0 * 2 + 2, epClean * 2);
+                if (sEpc.Length != epClean * 2)
+                    return "";
+
+                return sEpc;
+            }
+
+            return "";
+
+        }
+
     }
 }

@@ -39,20 +39,21 @@
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label65 = new System.Windows.Forms.Label();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.CheckBox_TID = new System.Windows.Forms.CheckBox();
-            this.groupBox33 = new System.Windows.Forms.GroupBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.label55 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label54 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.ComboBox_IntervalTime = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
             this.Timer_Test_ = new System.Windows.Forms.Timer(this.components);
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.Button_DataWrite = new System.Windows.Forms.Button();
+            this.Edit_WriteData = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
             this.groupBox41.SuspendLayout();
             this.groupBox12.SuspendLayout();
-            this.groupBox33.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox41
@@ -103,7 +104,7 @@
             // label63
             // 
             this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(7, 94);
+            this.label63.Location = new System.Drawing.Point(7, 88);
             this.label63.Name = "label63";
             this.label63.Size = new System.Drawing.Size(35, 13);
             this.label63.TabIndex = 4;
@@ -111,7 +112,7 @@
             // 
             // textBox8
             // 
-            this.textBox8.Location = new System.Drawing.Point(33, 47);
+            this.textBox8.Location = new System.Drawing.Point(33, 53);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(88, 20);
             this.textBox8.TabIndex = 3;
@@ -128,7 +129,7 @@
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(40, 17);
+            this.textBox7.Location = new System.Drawing.Point(40, 23);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(82, 20);
             this.textBox7.TabIndex = 1;
@@ -145,85 +146,24 @@
             // 
             // groupBox12
             // 
-            this.groupBox12.Controls.Add(this.CheckBox_TID);
-            this.groupBox12.Controls.Add(this.groupBox33);
             this.groupBox12.Controls.Add(this.button2);
             this.groupBox12.Controls.Add(this.ComboBox_IntervalTime);
             this.groupBox12.Controls.Add(this.label23);
             this.groupBox12.Location = new System.Drawing.Point(151, 16);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(269, 176);
+            this.groupBox12.Size = new System.Drawing.Size(269, 79);
             this.groupBox12.TabIndex = 53;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Query Tag";
             // 
-            // CheckBox_TID
-            // 
-            this.CheckBox_TID.AutoSize = true;
-            this.CheckBox_TID.Location = new System.Drawing.Point(226, 65);
-            this.CheckBox_TID.Name = "CheckBox_TID";
-            this.CheckBox_TID.Size = new System.Drawing.Size(44, 17);
-            this.CheckBox_TID.TabIndex = 6;
-            this.CheckBox_TID.Text = "TID";
-            this.CheckBox_TID.UseVisualStyleBackColor = true;
-            // 
-            // groupBox33
-            // 
-            this.groupBox33.Controls.Add(this.textBox5);
-            this.groupBox33.Controls.Add(this.label55);
-            this.groupBox33.Controls.Add(this.textBox4);
-            this.groupBox33.Controls.Add(this.label54);
-            this.groupBox33.Location = new System.Drawing.Point(6, 43);
-            this.groupBox33.Name = "groupBox33";
-            this.groupBox33.Size = new System.Drawing.Size(209, 52);
-            this.groupBox33.TabIndex = 5;
-            this.groupBox33.TabStop = false;
-            this.groupBox33.Text = "Query TID Parameter";
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(167, 15);
-            this.textBox5.MaxLength = 2;
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(37, 20);
-            this.textBox5.TabIndex = 3;
-            this.textBox5.Text = "04";
-            // 
-            // label55
-            // 
-            this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(126, 25);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(31, 13);
-            this.label55.TabIndex = 2;
-            this.label55.Text = "Len：";
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(71, 16);
-            this.textBox4.MaxLength = 2;
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(37, 20);
-            this.textBox4.TabIndex = 1;
-            this.textBox4.Text = "02";
-            // 
-            // label54
-            // 
-            this.label54.AutoSize = true;
-            this.label54.Location = new System.Drawing.Point(4, 26);
-            this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(57, 13);
-            this.label54.TabIndex = 0;
-            this.label54.Text = "StartAddr：";
-            // 
             // button2
             // 
             this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(9, 143);
+            this.button2.Location = new System.Drawing.Point(101, 49);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 25);
+            this.button2.Size = new System.Drawing.Size(162, 25);
             this.button2.TabIndex = 2;
-            this.button2.Text = "Query Tag";
+            this.button2.Text = "Query ,  Read Tag";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -252,18 +192,86 @@
             // 
             // listBox1
             // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(0, 199);
+            this.listBox1.Location = new System.Drawing.Point(12, 207);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(423, 251);
+            this.listBox1.Size = new System.Drawing.Size(193, 238);
             this.listBox1.TabIndex = 54;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 191);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(25, 13);
+            this.label1.TabIndex = 55;
+            this.label1.Text = "TID";
+            // 
+            // listBox2
+            // 
+            this.listBox2.FormattingEnabled = true;
+            this.listBox2.Location = new System.Drawing.Point(211, 207);
+            this.listBox2.Name = "listBox2";
+            this.listBox2.Size = new System.Drawing.Size(209, 238);
+            this.listBox2.TabIndex = 56;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(210, 191);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 13);
+            this.label2.TabIndex = 57;
+            this.label2.Text = "User";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.Button_DataWrite);
+            this.groupBox1.Controls.Add(this.Edit_WriteData);
+            this.groupBox1.Controls.Add(this.label21);
+            this.groupBox1.Location = new System.Drawing.Point(151, 100);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(269, 92);
+            this.groupBox1.TabIndex = 58;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Write Data (Hex)";
+            // 
+            // Button_DataWrite
+            // 
+            this.Button_DataWrite.Location = new System.Drawing.Point(101, 47);
+            this.Button_DataWrite.Name = "Button_DataWrite";
+            this.Button_DataWrite.Size = new System.Drawing.Size(162, 25);
+            this.Button_DataWrite.TabIndex = 63;
+            this.Button_DataWrite.Text = "Write";
+            this.Button_DataWrite.UseVisualStyleBackColor = true;
+            this.Button_DataWrite.Click += new System.EventHandler(this.Button_DataWrite_Click);
+            // 
+            // Edit_WriteData
+            // 
+            this.Edit_WriteData.Location = new System.Drawing.Point(101, 21);
+            this.Edit_WriteData.Name = "Edit_WriteData";
+            this.Edit_WriteData.Size = new System.Drawing.Size(162, 20);
+            this.Edit_WriteData.TabIndex = 62;
+            this.Edit_WriteData.Text = "000000";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(6, 24);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(61, 13);
+            this.label21.TabIndex = 61;
+            this.label21.Text = "Write Data:";
             // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(423, 450);
+            this.ClientSize = new System.Drawing.Size(424, 450);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.listBox2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.groupBox12);
             this.Controls.Add(this.groupBox41);
@@ -275,9 +283,10 @@
             this.groupBox41.PerformLayout();
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
-            this.groupBox33.ResumeLayout(false);
-            this.groupBox33.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -286,24 +295,25 @@
         private System.Windows.Forms.GroupBox groupBox41;
         private System.Windows.Forms.Button CloseNetPort;
         private System.Windows.Forms.Button OpenNetPort;
-        private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.Label label63;
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.Label label64;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.Label label65;
         private System.Windows.Forms.GroupBox groupBox12;
-        private System.Windows.Forms.CheckBox CheckBox_TID;
-        private System.Windows.Forms.GroupBox groupBox33;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Label label55;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Label label54;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox ComboBox_IntervalTime;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Timer Timer_Test_;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.Label label63;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.Label label65;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button Button_DataWrite;
+        private System.Windows.Forms.TextBox Edit_WriteData;
+        private System.Windows.Forms.Label label21;
     }
 }
 
